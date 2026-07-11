@@ -1,0 +1,18 @@
+# Session captures — HARs embed auth cookies; extracted samples may too
+captures/
+
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
