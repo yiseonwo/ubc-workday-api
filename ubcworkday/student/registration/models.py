@@ -118,13 +118,20 @@ class Results(BaseModel):
 
     @classmethod
     def from_page(cls, page: Page) -> "Results":
-        """Parse a faceted-search results page into ``Results``."""
+        """Parse a faceted-search results page into ``Results``.
+
+        A search with no matches has no ``listItems`` child at all — that parses to an
+        empty page rather than an error.
+        """
         facets = page.body["facetContainer"]
+        total: int = facets["paginationCount"]["value"]
         listing = next((c for c in page.body["children"] if "listItems" in c), None)
         if listing is None:
+            if total == 0:
+                return cls(total=0, offset=0, sections=[])
             raise WorkdayError("results page has no listItems — the page layout may have changed")
         return cls(
-            total=facets["paginationCount"]["value"],
+            total=total,
             offset=facets["offset"]["value"],
             sections=[CourseSection.from_item(item) for item in listing["listItems"]],
         )

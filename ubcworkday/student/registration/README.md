@@ -67,6 +67,9 @@ Returns `Results` — the first page of matching sections:
 }
 ```
 
+A search with no matches returns an empty page rather than raising:
+`{"total": 0, "offset": 0, "size": 0, "sections": []}`.
+
 ### `list_terms(session, period="Future")` — values for `term`
 
 ```python
